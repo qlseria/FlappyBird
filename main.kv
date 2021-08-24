@@ -1,0 +1,62 @@
+#:include pipe.kv
+
+FloatLayout:
+    Background:
+        id: background
+        canvas.before:
+            Rectangle:
+                size: self.size
+                pos: self.pos
+                source: "sky.png"
+            Rectangle:
+                size: self.width, 138
+                pos: self.pos[0], self.pos[1] + self.height - 138
+                texture: self.cloud_texture
+            Rectangle:
+                size: self.width, 96
+                pos: self.pos[0], self.pos[1]
+                texture: self.floor_texture
+    Label:
+        id: score
+        size_hint_y: None
+        height: 96
+        text: "0"
+        font_size: 40
+    Button:
+        text: "Start game"
+        background_normal: "transparent.png"
+        background_down: "transparent.png"
+        id: start_button
+        on_release:
+            self.disabled = True
+            self.opacity = 0
+            app.start_game()
+    Bird:
+        source: "assets/image/idle.png"
+        size_hint: None, None
+        size: 46, 34
+        pos: 20, (root.height - 96) / 2.0
+        id: bird
+
+    GameOver:
+
+        id: game_over
+        width: 300
+        height: 300
+        canvas:
+            Rectangle:
+                size: 300, 300
+                pos: self.center_x-150, self.center_y-150
+        Label:
+            id: game_over_label
+            color: 0,0,0,1
+            text: "Game Over!"
+            font_size: 40
+            pos: 5000, 5000
+        Button:
+            id: game_over_button
+            color: 0,0,0,1
+            text: "Play Again"
+            pos: 5000, 5000
+            on_release:
+                app.game_reset()
